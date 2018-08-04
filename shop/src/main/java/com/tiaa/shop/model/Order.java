@@ -2,6 +2,9 @@ package com.tiaa.shop.model;
 
 import org.simpleframework.xml.Element;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 @Element(name="orderdetail")
 public class Order {
 
@@ -15,6 +18,7 @@ public class Order {
 		return orderId;
 	}
 
+	@JsonProperty("orderid")
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
@@ -23,6 +27,7 @@ public class Order {
 		return billAmount;
 	}
 
+	@JsonProperty("billamount")
 	public void setBillAmount(Double billAmount) {
 		this.billAmount = billAmount;
 	}

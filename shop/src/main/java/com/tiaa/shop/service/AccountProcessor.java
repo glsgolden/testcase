@@ -1,6 +1,7 @@
 package com.tiaa.shop.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,11 +10,18 @@ import java.util.stream.Collectors;
 import com.tiaa.shop.model.FoodChain;
 import com.tiaa.shop.parser.FileParser;
 import com.tiaa.shop.parser.FileParserFactory;
+import com.tiaa.shop.util.IoUtil;
+import com.tiaa.shop.util.JsonHelper;
 
 public class AccountProcessor {
 	
-	private List<FoodChain> missmatch;
+	private List<FoodChain> missMatch;
 	private List<FoodChain> match;
+	
+	public AccountProcessor() {
+		missMatch = new ArrayList<>();
+		match = new ArrayList<>();
+	}
 
 	public void startProcess(String ftpPath) throws Exception {
 		
@@ -26,12 +34,14 @@ public class AccountProcessor {
 	}
 	
 	
-	private void printMatchDetails() {
-		throw new UnsupportedOperationException();
+	private void printMatchDetails() throws IOException {
+		
+		JsonHelper.writeToFile(missMatch, new File("D:\\reports\\missmatch.json"));
+		
 	}
 
-	private void printMissMatchDetails() {
-		throw new UnsupportedOperationException();
+	private void printMissMatchDetails() throws IOException {
+		JsonHelper.writeToFile(match, new File("D:\\reports\\match.json"));
 	}
 
 
@@ -41,7 +51,7 @@ public class AccountProcessor {
 			if(checker.checkTotalCollection(chain)){
 				match.add(chain);
 			}else {
-				missmatch.add(chain);
+				missMatch.add(chain);
 			}
 		}
 	}
@@ -53,7 +63,7 @@ public class AccountProcessor {
 		
 		for(File file : files) {
 			String fileName =  file.getName();
-			String extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
+			String extension = fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length());
 			
 			FileParser parser = FileParserFactory.getFileParser(extension);
 			
@@ -78,7 +88,7 @@ public class AccountProcessor {
 	}
 	
 	public int getTotalMissMatch() {
-		return missmatch == null ? 0 : missmatch.size();
+		return missMatch == null ? 0 : missMatch.size();
 	}
 	
 	public int getTotalMatch() {

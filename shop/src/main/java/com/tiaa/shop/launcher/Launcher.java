@@ -4,7 +4,7 @@ import com.tiaa.shop.service.AccountProcessor;
 public class Launcher {
 
 	public static void main(String[] args) {
-		String ftpPath = "C:\\ftp\\";
+		String ftpPath = "D:\\ftp\\";
 		
 		if(args.length > 0){
 			ftpPath = args[0];
@@ -14,6 +14,7 @@ public class Launcher {
 		try {
 			processor.startProcess(ftpPath);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 	}

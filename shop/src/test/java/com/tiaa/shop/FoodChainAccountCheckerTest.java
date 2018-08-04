@@ -17,11 +17,11 @@ public class FoodChainAccountCheckerTest {
 	
 	@Test
 	public void testMissMatch() {
-		String folderPath = "";
+		String folderPath = "D:\\Ganesh\\Workspace\\GIT\\tiaa_foodchain\\Testing\\missmatch\\";
 		AccountProcessor accountProcessor = new AccountProcessor();
 		try {
 			accountProcessor.startProcess(folderPath);
-			Assert.assertEquals(2, accountProcessor.getTotalMissMatch());
+			Assert.assertEquals(4, accountProcessor.getTotalMissMatch());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -31,11 +31,11 @@ public class FoodChainAccountCheckerTest {
 	
 	@Test
 	public void testMatch() {
-		String folderPath = "";
+		String folderPath = "D:\\Ganesh\\Workspace\\GIT\\tiaa_foodchain\\Testing\\match\\";
 		AccountProcessor accountProcessor = new AccountProcessor();
 		try {
 			accountProcessor.startProcess(folderPath);
-			Assert.assertEquals(2, accountProcessor.getTotalMatch());
+			Assert.assertEquals(4, accountProcessor.getTotalMatch());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +44,7 @@ public class FoodChainAccountCheckerTest {
 	
 	@Test
 	public void testMatchAndMissMatc() {
-		String folderPath = "";
+		String folderPath = "D:\\Ganesh\\Workspace\\GIT\\tiaa_foodchain\\Testing\\mix\\";
 		AccountProcessor accountProcessor = new AccountProcessor();
 		try {
 			accountProcessor.startProcess(folderPath);

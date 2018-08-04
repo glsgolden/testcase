@@ -2,15 +2,20 @@ package com.tiaa.shop.model;
 
 import org.simpleframework.xml.Element;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class FoodChainBranch {
 
 	@Element(name="location")
+	@JsonProperty("location")
 	private String location;
 
 	@Element(name="totalcollection")
+	@JsonProperty("totalcollection")
 	private Double totalCollection;
 
 	@Element(name="locationid")
+	@JsonProperty("locationid")
 	private String locationId;
 
 	public String getLocation() {

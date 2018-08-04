@@ -9,7 +9,7 @@ public class TotalCollectionChecker {
 	{
 		Double totalCollection = chain.getBranch().getTotalCollection();
 		
-		Double sum = chain.getOrders().stream().filter(order -> order.getBillAmount() > 0).mapToDouble(Order::getBillAmount).sum();
+		Double sum = chain.getOrderList().stream().filter(order -> order.getBillAmount() > 0).mapToDouble(Order::getBillAmount).sum();
 		
 		return totalCollection.doubleValue() == sum.doubleValue() ? Boolean.TRUE : Boolean.FALSE;
 	}

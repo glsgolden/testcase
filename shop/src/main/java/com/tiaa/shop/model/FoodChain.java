@@ -6,14 +6,21 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-@Root(name="cmfoodchain")
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class FoodChain {
 
-	@Element(name="branch")
+	@Element(name = "branch")
 	private FoodChainBranch branch;
 
-	@ElementList(name="orders")
-	private List<Order> orders;
+	@ElementList(name = "orders")
+	private List<Order> ordersList;
+
+	private OrderHolder orders;
 
 	public FoodChainBranch getBranch() {
 		return branch;
@@ -23,11 +30,20 @@ public class FoodChain {
 		this.branch = branch;
 	}
 
-	public List<Order> getOrders() {
+	public List<Order> getOrderList() {
+		return ordersList;
+	}
+
+	public void setOrderList(List<Order> ordersList) {
+		this.ordersList = ordersList;
+	}
+	
+	
+	public OrderHolder getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(OrderHolder orders) {
 		this.orders = orders;
 	}
 
