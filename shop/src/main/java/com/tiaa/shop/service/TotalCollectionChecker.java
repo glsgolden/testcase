@@ -1,17 +1,18 @@
 package com.tiaa.shop.service;
 
+import com.tiaa.shop.mapper.BranchMapper;
+import com.tiaa.shop.model.BranchSummary;
 import com.tiaa.shop.model.FoodChain;
 import com.tiaa.shop.model.Order;
 
 public class TotalCollectionChecker {
 
-	public boolean checkTotalCollection(FoodChain chain)
+	public BranchSummary getBranchSummary(FoodChain chain)
 	{
-		Double totalCollection = chain.getBranch().getTotalCollection();
-		
 		Double sum = chain.getOrderList().stream().filter(order -> order.getBillAmount() > 0).mapToDouble(Order::getBillAmount).sum();
-		
-		return totalCollection.doubleValue() == sum.doubleValue() ? Boolean.TRUE : Boolean.FALSE;
+		BranchSummary summary = BranchMapper.from(chain.getBranch());
+		summary.setSumOfOrder(sum);
+		return summary;
 	}
 	
 }

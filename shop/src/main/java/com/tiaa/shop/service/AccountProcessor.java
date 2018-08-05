@@ -7,7 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.tiaa.shop.model.BranchSummary;
 import com.tiaa.shop.model.FoodChain;
+import com.tiaa.shop.model.FoodChainSummary;
+import com.tiaa.shop.model.FoodChainSummaryHolder;
 import com.tiaa.shop.parser.FileParser;
 import com.tiaa.shop.parser.FileParserFactory;
 import com.tiaa.shop.util.IoUtil;
@@ -15,12 +18,13 @@ import com.tiaa.shop.util.JsonHelper;
 
 public class AccountProcessor {
 	
-	private List<FoodChain> missMatch;
-	private List<FoodChain> match;
+	
+	private FoodChainSummary missMatch;
+	private FoodChainSummary match;
 	
 	public AccountProcessor() {
-		missMatch = new ArrayList<>();
-		match = new ArrayList<>();
+		missMatch = new FoodChainSummary();
+		match = new FoodChainSummary();
 	}
 
 	public void startProcess(String ftpPath) throws Exception {
@@ -35,23 +39,27 @@ public class AccountProcessor {
 	
 	
 	private void printMatchDetails() throws IOException {
-		
-		JsonHelper.writeToFile(missMatch, new File("D:\\reports\\missmatch.json"));
+		FoodChainSummaryHolder summaryHolder = new FoodChainSummaryHolder();
+		summaryHolder.setCmfoodchain(missMatch);
+		JsonHelper.writeToFile(summaryHolder, new File("D:\\reports\\missmatch.json"));
 		
 	}
 
 	private void printMissMatchDetails() throws IOException {
-		JsonHelper.writeToFile(match, new File("D:\\reports\\match.json"));
+		FoodChainSummaryHolder summaryHolder = new FoodChainSummaryHolder();
+		summaryHolder.setCmfoodchain(match);
+		JsonHelper.writeToFile(summaryHolder, new File("D:\\reports\\match.json"));
 	}
 
 
 	private void tallyShopCollections(List<FoodChain> foodChains) {
 		TotalCollectionChecker checker = new TotalCollectionChecker();
 		for(FoodChain chain : foodChains) {
-			if(checker.checkTotalCollection(chain)){
-				match.add(chain);
+			BranchSummary summary = checker.getBranchSummary(chain);
+			if(summary.isTotalMatch()){
+				match.addBranchSummary(summary);
 			}else {
-				missMatch.add(chain);
+				missMatch.addBranchSummary(summary);
 			}
 		}
 	}
@@ -88,11 +96,11 @@ public class AccountProcessor {
 	}
 	
 	public int getTotalMissMatch() {
-		return missMatch == null ? 0 : missMatch.size();
+		return missMatch.getTotalBranchSummary();
 	}
 	
 	public int getTotalMatch() {
-		return match == null ? 0 : match.size();
+		return match.getTotalBranchSummary();
 	}
 	
 	
